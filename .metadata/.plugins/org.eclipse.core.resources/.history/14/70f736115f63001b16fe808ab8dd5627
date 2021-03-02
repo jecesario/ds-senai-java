@@ -1,0 +1,76 @@
+package Testes;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import Classes.Produto;
+
+public class TestaProduto {
+
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		FileOutputStream arquivo = null;
+		FileInputStream leitura = null;
+		BufferedReader conversao = null;
+		
+		int opcao = 0;
+		int codigo;
+		String nome;
+		double preco;
+		int quantidade;
+		ArrayList codigos = new ArrayList();
+		Codigos codigos = new Codigos();
+		
+		System.out.println("*** Menu ***");
+		System.out.println("1 - Cadastrar um novo produto");
+		System.out.println("2 - Buscar dados de um produto");
+		System.out.println("3 - Listar todos os produtos");
+		System.out.println("4 - Atualizar produto");
+		System.out.println("Pressione qualquer outra tecla para sair");
+		System.out.print("Selecione a sua opção: ");
+		opcao = in.nextInt();
+		
+		try {
+			if(opcao == 1) {
+				System.out.println("Você escolheu cadastrar um novo produto");
+				System.out.print("Digite o código do produto: ");
+				codigo = in.nextInt();
+				
+				leitura = new FileInputStream("produtos.txt");
+				InputStreamReader conteudo = new InputStreamReader(leitura);
+				conversao = new BufferedReader(conteudo);
+				String linhaCopia = "";
+				while(conversao.ready()) {
+					String linha = conversao.readLine();
+					
+				}
+				System.out.println(linhaCopia);
+				
+				System.out.print("Digite o nome do produto: ");
+				nome = in.next();
+				System.out.print("Digite o preço do produto: ");
+				preco = in.nextDouble();
+				System.out.print("Digite a quantidade do produto: ");
+				quantidade = in.nextInt();
+				
+				arquivo = new FileOutputStream("produtos.txt", true);
+				Produto prod = new Produto(codigo, nome, preco, quantidade);
+				
+				byte[] produto = (prod.getCodigo() + ";" + prod.getNome() + ";" + prod.getPreco() + ";" + prod.getQuantidade() + "\n").getBytes();
+				arquivo.write(produto);
+				System.out.println("Arquivo gravado com sucesso!");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		in.close();
+	}
+
+}

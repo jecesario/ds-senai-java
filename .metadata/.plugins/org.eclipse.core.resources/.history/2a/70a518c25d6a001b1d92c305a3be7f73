@@ -1,0 +1,108 @@
+package Testes;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import Classes.Produto;
+
+public class TestaProduto {
+
+	public static Scanner in = new Scanner(System.in);
+
+	public static FileOutputStream arquivo = null;
+	public static FileInputStream leitura = null;
+	public static BufferedReader conversao = null;
+	public static ArrayList<String> codigosCadastrados = new ArrayList<String>();
+	public static List<Produto> listaProdutos = new ArrayList<>();
+
+	public static String codigo;
+	public static String nome;
+	public static double preco;
+	public static int quantidade;
+
+	public static void main(String[] args) {
+
+		int opcao = 0;
+
+		System.out.println("*** Menu ***");
+		System.out.println("1 - Cadastrar um novo produto");
+		System.out.println("2 - Buscar dados de um produto");
+		System.out.println("3 - Listar todos os produtos");
+		System.out.println("4 - Atualizar produto");
+		System.out.println("Pressione qualquer outra tecla para sair");
+		System.out.print("Selecione a sua opção: ");
+		opcao = in.nextInt();
+
+		switch (opcao) {
+		case 1:
+			cadastrarProduto();
+			break;
+		}
+
+		try {
+			leitura = new FileInputStream("produtos.txt");
+
+			if (opcao == 1) {
+
+			} else if (opcao == 2) {
+				System.out.println("Você escolheu buscar por um produto");
+				System.out.print("Digite o código do produto: ");
+				codigo = in.next();
+
+				// Buscando todos os códigos na lista produtos.txt
+				String linhaCopia = "";
+				boolean encontrou = true;
+				while (conversao.ready()) {
+					String linha = conversao.readLine();
+					String item[] = linha.split(";");
+					if (codigo.equals(item[0])) {
+						linhaCopia = linha;
+						encontrou = true;
+						break;
+					} else {
+						encontrou = false;
+					}
+				}
+
+				// Terminando de buscar códigos na lista produtos.txt
+				// Exibindo se encontrou ou não o produto
+				if (encontrou) {
+					String prod[] = linhaCopia.split(";");
+					System.out.println("Exibindo dados do produto");
+					System.out.println("Código: " + prod[0]);
+					System.out.println("Nome: " + prod[1]);
+					System.out.println("Preço: R$" + prod[2]);
+					System.out.println("Quantidade: " + prod[3]);
+				} else {
+					System.out.println("*** Produto não encontrado ***");
+					main(args);
+				}
+
+			} else if (opcao == 3) {
+				System.out.println("Você escolheu listar todos os produtos");
+				System.out.println("Cod\t\tNome\t\tPreço\t\tQuantidade");
+				while (conversao.ready()) {
+					String linha = conversao.readLine();
+					String item[] = linha.split(";");
+					System.out.printf("%s\t\t%s\t\t%s\t\t%s\n", item[0], item[1], item[2], item[3]);
+
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		in.close();
+	}
+
+	public static void cadastrarProduto() {
+	
+	}
+
+}
